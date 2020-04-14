@@ -32,12 +32,16 @@ app.post("/repositories", (request, response) => {
 
 app.put("/repositories/:id", (request, response) => {
   const { id } = request.params;
-  const { title, url, techs } = request.body;
+  const { title, url, techs, likes } = request.body;
 
   const projectIndex = repositories.findIndex((project) => project.id === id);
 
   if (projectIndex < 0) {
     return response.status(400).json({ error: "Project not found." });
+  }
+
+  if (likes) {
+    return response.json({ likes: repositories[projectIndex].likes });
   }
 
   const project = {
